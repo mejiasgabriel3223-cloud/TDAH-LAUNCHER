@@ -36,15 +36,47 @@ class AssetManager:
                 pass
             cls._assets["menu_background"] = pygame.transform.scale(background, (Settings.S_WIDTH, Settings.S_HEIGHT))
 
-        if os.path.exists(Settings.MAIN_TITLE_IMAGE):
-            title_image = pygame.image.load(Settings.MAIN_TITLE_IMAGE)
+        if os.path.exists(Settings.MENU_BACKGROUND_IMAGE):
+            menu_background = pygame.image.load(Settings.MENU_BACKGROUND_IMAGE)
+            try:
+                menu_background = menu_background.convert()
+            except pygame.error:
+                pass
+            cls._assets["selection_background"] = pygame.transform.smoothscale(
+                menu_background, (Settings.S_WIDTH, Settings.S_HEIGHT)
+            )
+
+        if os.path.exists(Settings.START_BACKGROUND_IMAGE):
+            start_background = pygame.image.load(Settings.START_BACKGROUND_IMAGE)
+            try:
+                start_background = start_background.convert()
+            except pygame.error:
+                pass
+            cls._assets["start_background"] = pygame.transform.smoothscale(
+                start_background, (Settings.S_WIDTH, Settings.S_HEIGHT)
+            )
+
+        if os.path.exists(Settings.BANNER_IMAGE):
+            title_image = pygame.image.load(Settings.BANNER_IMAGE)
             try:
                 title_image = title_image.convert_alpha()
             except pygame.error:
                 pass
-            max_width = min(800, title_image.get_width())
+            max_width = min(Settings.S_WIDTH - 120, title_image.get_width())
             image_height = int(title_image.get_height() * max_width / title_image.get_width())
-            cls._assets["main_title_image"] = pygame.transform.smoothscale(title_image, (max_width, image_height))
+            cls._assets["banner"] = pygame.transform.smoothscale(title_image, (max_width, image_height))
+
+        for asset_name, asset_path in (
+            ("previous_button", Settings.PREVIOUS_BUTTON_IMAGE),
+            ("next_button", Settings.NEXT_BUTTON_IMAGE),
+        ):
+            if os.path.exists(asset_path):
+                button_image = pygame.image.load(asset_path)
+                try:
+                    button_image = button_image.convert_alpha()
+                except pygame.error:
+                    pass
+                cls._assets[asset_name] = button_image
 
     @classmethod
     def load_game_covers(cls, games: List[dict]) -> None:

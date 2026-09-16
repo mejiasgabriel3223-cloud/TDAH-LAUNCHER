@@ -14,11 +14,21 @@ def main():
         if ROOT_DIR not in sys.path:
             sys.path.insert(0, ROOT_DIR)
 
-        print("Iniciando V-Sports Launcher...")
+        print("Iniciando Launcher...")
 
         # Se analiza la carpeta de juegos para construir el catálogo visible en el menú.
         games_folder = os.path.join(ROOT_DIR, "games")
         found_games = GameScanner.scan_and_load_metadata(games_folder)
+        found_games.extend(
+            {
+                "folder": f"fantasma_{index}",
+                "title": f"Juego de prueba {index}",
+                "description": "Tarjeta de prueba del menú",
+                "group_number": "Demo",
+                "is_ghost": True,
+            }
+            for index in range(1, 7)
+        )
 
         # Se instancia el launcher con el catálogo y la ruta base de los juegos.
         launcher = Launcher(found_games=found_games, games_path=games_folder)
