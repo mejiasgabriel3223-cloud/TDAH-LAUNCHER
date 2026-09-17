@@ -22,4 +22,11 @@ class Settings:
         os.path.join(ASSETS_DIR, "music", "Changing-Seasons.mp3"),
         os.path.join(ASSETS_DIR, "music", "Everything-Everything.mp3"),
         os.path.join(ASSETS_DIR, "music", "Slingshot_1.mp3"),
+        os.path.join(ASSETS_DIR, "music", "hotel kawai.mp3"),
+        os.path.join(ASSETS_DIR, "music", "sunny.mp3"),
+        os.path.join(ASSETS_DIR, "music", "tea time.mp3"),
     ]
+    SOUND_SELECT = os.path.join(ASSETS_DIR, "sounds", "wii confirm.mp3")
+    SOUND_QUIT = os.path.join(ASSETS_DIR, "sounds", "wii click.mp3")
+    SOUND_START = os.path.join(ASSETS_DIR, "sounds", "wii click.mp3")
+    SOUND_NAV = os.path.join(ASSETS_DIR, "sounds", "ppop.mp3")

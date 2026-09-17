@@ -22,6 +22,7 @@ class MainMenu:
         self.message = None
         self.message_time = 0.0
         self.decorations = [FloatingDecoration() for _ in range(16)]
+        self.nav_sound = self._load_sound("SOUND_NAV", "assets/sounds/nav_move.wav")
         self.select_sound = self._load_sound("SOUND_SELECT", "assets/sounds/select.wav")
         self.quit_sound = self._load_sound("SOUND_QUIT", "assets/sounds/quit.wav")
 
@@ -68,9 +69,8 @@ class MainMenu:
         if not self.games_list:
             return None
         if self.games_list[self.selected_index].get("is_ghost"):
-            self.message = "Juego de prueba seleccionado"
-            self.message_time = 2.0
-            return None
+            self._play_sound(self.select_sound)
+            return "TEST_GAME"
         self._play_sound(self.select_sound)
         return {"action": "LAUNCH", "game_data": self.games_list[self.selected_index]}
 
@@ -78,9 +78,15 @@ class MainMenu:
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key in (pygame.K_LEFT, pygame.K_UP):
+                    previous_index = self.selected_index
                     self.selected_index = max(0, self.selected_index - 1)
+                    if self.selected_index != previous_index:
+                        self._play_sound(self.nav_sound)
                 elif event.key in (pygame.K_RIGHT, pygame.K_DOWN):
+                    previous_index = self.selected_index
                     self.selected_index = min(max(0, len(self.games_list) - 1), self.selected_index + 1)
+                    if self.selected_index != previous_index:
+                        self._play_sound(self.nav_sound)
                 if event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN):
                     self.page_start = (self.selected_index // 4) * 4
                 elif event.key in (pygame.K_RETURN, pygame.K_SPACE):
@@ -93,9 +99,11 @@ class MainMenu:
                     self._play_sound(self.quit_sound)
                     return "START"
                 if self._button_rect(self.previous_button).collidepoint(event.pos):
+                    self._play_sound(self.nav_sound)
                     self._change_page(-1)
                     return None
                 if self._button_rect(self.next_button).collidepoint(event.pos):
+                    self._play_sound(self.nav_sound)
                     self._change_page(1)
                     return None
                 for index, rect in enumerate(self.card_rects):

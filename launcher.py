@@ -2,7 +2,7 @@ import pygame
 from core.settings import Settings
 from core.managers.asset_manager import AssetManager
 from core.managers.sound_player import SoundPlayer
-from ui.screens import BootScreen, MainMenu, StartScreen
+from ui.screens import BootScreen, MainMenu, StartScreen, TestGameScreen
 from engine import Engine
 
 
@@ -40,6 +40,7 @@ class Launcher:
             "BOOT": BootScreen(),
             "START": StartScreen(),
             "MAIN_MENU": MainMenu(self.games_list),
+            "TEST_GAME": TestGameScreen(),
         }
 
         self.current_state = "START"
